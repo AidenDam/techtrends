@@ -1,0 +1,18 @@
+## Docker commands used to build the application 
+DOCKER_BUILDKIT=1 docker build -t techtrends-app -f Dockerfile .
+
+## Docker commands used to run the application
+docker run -d -v ./techtrends/database.db:/usr/src/app/database.db --name techtrends-app -p 7111:3111 techtrends-app
+
+## Docker commands used to get the application logs
+docker logs techtrends-app
+
+## Logs from the container running the TechTrends application
+ * Serving Flask app 'app' (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+WARNING:werkzeug:2024-09-16 09:09:18,478,  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+INFO:werkzeug:2024-09-16 09:09:18,478,  * Running on http://172.17.0.2:3111/ (Press CTRL+C to quit)

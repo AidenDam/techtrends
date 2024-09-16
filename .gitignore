@@ -1,0 +1,6 @@
+.env/
+.venv/
+.myvenv/
+.vagrant/
+__pycache__/
+*.db
