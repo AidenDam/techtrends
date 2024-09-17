@@ -1,4 +1,5 @@
 import os
+import sys
 import sqlite3
 
 from flask import Flask, jsonify, json, render_template, request, url_for, redirect, flash
@@ -110,6 +111,9 @@ def initialize_logger():
     logging.basicConfig(
         format='%(levelname)s:%(name)s:%(asctime)s, %(message)s',
                 level=log_level,
+        handlers=[logging.FileHandler("app.log"), 
+                  logging.StreamHandler(sys.stdout),
+                  logging.StreamHandler(sys.stderr)]
     )
 
 
