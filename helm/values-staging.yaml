@@ -1,6 +1,8 @@
 namespace:
   name: staging
 
+appname: techtrends
+
 replicaCount: 3
 
 service:
