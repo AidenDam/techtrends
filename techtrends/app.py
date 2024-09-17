@@ -13,9 +13,16 @@ app.config['connection_count'] = 0
 # Function to get a database connection.
 # This function connects to database with the name `database.db`
 def get_db_connection():
-    connection = sqlite3.connect('database.db')
+    try:
+        if os.path.exists("database.db"):
+            connection = sqlite3.connect("database.db")
+        else:
+            raise RuntimeError('Failed to open database')
+    except sqlite3.OperationalError:
+        logging.error('Database.db is not properly defined. please run python init_db.py!')
+
     connection.row_factory = sqlite3.Row
-    app.config['connection_count'] += + 1
+    app.config['connection_count'] += 1
     return connection
 
 # Function to get a post using its ID
@@ -40,13 +47,16 @@ def index():
 def post(post_id):
     post = get_post(post_id)
     if post is None:
+      logging.error('Article with id %s does not exist!', post_id)
       return render_template('404.html'), 404
     else:
+      logging.debug('Article %s retrieved!', post["title"])
       return render_template('post.html', post=post)
 
 # Define the About Us page
 @app.route('/about')
 def about():
+    logging.debug("About page rendered!")
     return render_template('about.html')
 
 # Define the post creation functionality 
@@ -64,6 +74,7 @@ def create():
                          (title, content))
             connection.commit()
             connection.close()
+            logging.debug('Article %s created!', title)
 
             return redirect(url_for('index'))
 
